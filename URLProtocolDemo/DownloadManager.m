@@ -139,6 +139,7 @@
 {
     if (index > self.downloadingItems.count) return;
     DownloadItem *item = self.downloadingItems[index];
+    item.failed = NO;
     [item.task resume];
 }
 - (void)cancelTaskAtIndex:(NSUInteger)index
@@ -146,6 +147,8 @@
     if (index > self.downloadingItems.count) return;
     DownloadItem *item = self.downloadingItems[index];
     [item.task cancel];
+    [_downloadingItems removeObjectAtIndex:index];
+    [self userDefaultsDeleteUrl:item.url];
 }
 
 #pragma mark - NSURLSessionDownloadDelegate
@@ -204,6 +207,8 @@
 //    NSLog(@"totalBytesWritten : %lld", totalBytesWritten);
 //    NSLog(@"totalBytesExpectedToWrite : %lld", totalBytesExpectedToWrite);
     
+    printf("%llu --> %lld, %lld, %lld\n", downloadTask.taskIdentifier, bytesWritten, totalBytesWritten, totalBytesExpectedToWrite);
+    
     NSString *url = downloadTask.originalRequest.URL.absoluteString;
     DownloadItem *item = [self downloadItemForURL:url];
     if (!item) return;
@@ -217,10 +222,10 @@
 }
 
 ///重新下载之前失败的任务
-//- (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didResumeAtOffset:(int64_t)fileOffset expectedTotalBytes:(int64_t)expectedTotalBytes
-//{
-//
-//}
+- (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didResumeAtOffset:(int64_t)fileOffset expectedTotalBytes:(int64_t)expectedTotalBytes
+{
+
+}
 
 
 ///
@@ -260,25 +265,32 @@
 - (void)userDefaultsStoreUrl:(NSString *)url file:(NSString *)fileName
 {
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-    NSMutableDictionary *downloadingFiles = [ud objectForKey:@"demoDownloadingFiles"];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    NSDictionary *downloadingFiles = [ud objectForKey:@"demoDownloadingFiles"];
     if (!downloadingFiles)
     {
-        downloadingFiles = [NSMutableDictionary dictionary];
+        for (NSString *key in downloadingFiles)
+        {
+            NSString *value = [downloadingFiles objectForKey:key];
+            [dict setObject:value forKey:key];
+        }
     }
-    [downloadingFiles setObject:fileName forKey:url];
-    [ud setObject:downloadingFiles forKey:@"demoDownloadingFiles"];
+    [dict setObject:fileName forKey:url];
+    [ud setObject:dict forKey:@"demoDownloadingFiles"];
     [ud synchronize];
 }
 
 - (void)userDefaultsDeleteUrl:(NSString *)url
 {
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-    NSMutableDictionary *downloadingFiles = [ud objectForKey:@"demoDownloadingFiles"];
+    NSDictionary *downloadingFiles = [ud objectForKey:@"demoDownloadingFiles"];
     if (downloadingFiles)
     {
-        [downloadingFiles removeObjectForKey:url];
+        NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:downloadingFiles];
+        [dict removeObjectForKey:url];
+        [ud setObject:dict forKey:@"demoDownloadingFiles"];
+        [ud synchronize];
     }
-    [ud synchronize];
 }
 
 - (void)readFileFromUserDefaults

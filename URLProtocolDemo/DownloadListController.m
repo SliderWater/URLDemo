@@ -149,7 +149,8 @@
     
     if (indexPath.row < self.manager.downloadingItems.count) {
         DownloadItem *item = self.manager.downloadingItems[indexPath.row];
-        if (item.failed == NO) {
+        if (item.failed == NO)
+        {
             double progressValue = (double)item.totalBytesWritten / (double)item.totalBytesExpectedToWrite * 100;
             NSString *progress = [NSString stringWithFormat:@"%d%%", (int)progressValue];
             NSNumber *velocityNumber = self.velocityDict[item.url];
@@ -157,6 +158,16 @@
             NSString *totalSize = [self prettyDownloadBytes:item.totalBytesExpectedToWrite];
             BOOL paused = item.task.state == NSURLSessionTaskStateSuspended;
             [cell setFileName:item.fileName totalSize:totalSize progress:progress velocity:velocity paused:paused];
+        }
+        else
+        {
+            double progressValue = (double)item.totalBytesWritten / (double)item.totalBytesExpectedToWrite * 100;
+            NSString *progress = [NSString stringWithFormat:@"%d%%", (int)progressValue];
+            NSNumber *velocityNumber = self.velocityDict[item.url];
+            NSString *velocity = [self prettyDownloadVelocity:velocityNumber.doubleValue];
+            NSString *totalSize = [self prettyDownloadBytes:item.totalBytesExpectedToWrite];
+//            BOOL paused = item.task.state == NSURLSessionTaskStateSuspended;
+            [cell setFileName:item.fileName totalSize:totalSize progress:progress velocity:velocity paused:YES];
         }
     }
     
