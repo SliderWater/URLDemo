@@ -17,12 +17,20 @@
 @property (weak, nonatomic) IBOutlet UILabel *urlLabel;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *hud;
 @property (nonatomic, strong) WKWebView *wkWebView;
+@property (nonatomic, strong) UIWebView *webView;
 @property (nonatomic, strong) NSMutableArray *urlArray;
 @property (nonatomic, copy) NSString *webTitle;
 
 @end
 
 @implementation DemoViewController
+
+- (void)dealloc
+{
+    self.wkWebView.navigationDelegate = nil;
+    self.wkWebView = nil;
+    self.webView.delegate = nil;
+}
 
 - (NSMutableArray *)urlArray {
     if (!_urlArray) {
@@ -50,6 +58,8 @@
     _wkWebView = [[WKWebView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds)-44) configuration:config];
     [self.view addSubview:self.wkWebView];
     self.wkWebView.navigationDelegate = self;
+    
+    
 }
 
 - (void)prepareNavigationItems

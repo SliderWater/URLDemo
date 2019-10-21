@@ -12,6 +12,7 @@
 		A915CAD521B5406B0006C1D5 /* FileListController.m in Sources */ = {isa = PBXBuildFile; fileRef = A915CAD421B5406B0006C1D5 /* FileListController.m */; };
 		A93FEAC721C1FDC600C00944 /* FileCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A93FEAC521C1FDC600C00944 /* FileCell.m */; };
 		A93FEAC821C1FDC600C00944 /* FileCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A93FEAC621C1FDC600C00944 /* FileCell.xib */; };
+		A955616F2356FBD000A8A70A /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A955616E2356FBD000A8A70A /* WebKit.framework */; };
 		A970204121B0DEDC0099132B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A970204021B0DEDC0099132B /* AppDelegate.m */; };
 		A970204421B0DEDC0099132B /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A970204321B0DEDC0099132B /* ViewController.m */; };
 		A970204721B0DEDC0099132B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A970204521B0DEDC0099132B /* Main.storyboard */; };
@@ -35,6 +36,7 @@
 		A93FEAC421C1FDC600C00944 /* FileCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileCell.h; sourceTree = "<group>"; };
 		A93FEAC521C1FDC600C00944 /* FileCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FileCell.m; sourceTree = "<group>"; };
 		A93FEAC621C1FDC600C00944 /* FileCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FileCell.xib; sourceTree = "<group>"; };
+		A955616E2356FBD000A8A70A /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		A970203C21B0DEDC0099132B /* URLProtocolDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = URLProtocolDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A970203F21B0DEDC0099132B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		A970204021B0DEDC0099132B /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -64,17 +66,27 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A955616F2356FBD000A8A70A /* WebKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A955616D2356FBD000A8A70A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A955616E2356FBD000A8A70A /* WebKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		A970203321B0DEDC0099132B = {
 			isa = PBXGroup;
 			children = (
 				A970203E21B0DEDC0099132B /* URLProtocolDemo */,
 				A970203D21B0DEDC0099132B /* Products */,
+				A955616D2356FBD000A8A70A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
