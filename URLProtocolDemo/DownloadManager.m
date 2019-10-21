@@ -58,6 +58,7 @@
         NSURLSessionConfiguration *config = [NSURLSessionConfiguration backgroundSessionConfigurationWithIdentifier:@"com.xyzdm123.backG_session"];
         _instance.session = [NSURLSession sessionWithConfiguration:config delegate:_instance delegateQueue:_instance.queue];
         _instance->_downloadingItems = [NSMutableArray array];
+        [_instance readFileFromUserDefaults];
     });
     return _instance;
 }
@@ -79,9 +80,25 @@
 {
     NSLog(@"download url : %@", url);
     
+    if (url.length == 0 || fileName.length == 0)
+    {
+        NSLog(@"url or filename is null!");
+        if (self.delegate && [self.delegate respondsToSelector:@selector(downloadUrl:failedWithError:)])
+        {
+            NSError *err = [NSError errorWithDomain:NSURLErrorDomain code:999 userInfo:@{NSLocalizedDescriptionKey: @"url or filename is null!"}];
+            [self.delegate downloadUrl:@"null" failedWithError:err];
+        }
+    }
+    
     DownloadItem *item = [self downloadItemForURL:url];
     if (item != nil) {
         NSLog(@"The file of url : \"%@\" is already downloading!", url);
+        if (self.delegate && [self.delegate respondsToSelector:@selector(downloadUrl:failedWithError:)])
+        {
+            NSString *errorStr = [NSString stringWithFormat:@"The file of url : \"%@\" is already downloading!", url];
+            NSError *err = [NSError errorWithDomain:NSURLErrorDomain code:999 userInfo:@{NSLocalizedDescriptionKey: errorStr}];
+            [self.delegate downloadUrl:url failedWithError:err];
+        }
         return;
     }
     
@@ -93,6 +110,8 @@
     [_downloadingItems addObject:item];
     
     [item.task resume];
+    
+    [self userDefaultsStoreUrl:url file:fileName];
 }
 
 - (DownloadItem *)downloadItemForURL:(NSString *)url
@@ -146,6 +165,7 @@
         }
     } else {
         NSLog(@"下载成功");
+        [self userDefaultsDeleteUrl:task.originalRequest.URL.absoluteString];
     }
 }
 
@@ -173,6 +193,8 @@
             [self.delegate downloadUrl:url successWithSavedPath:savePath];
         }
     }
+    
+    [self userDefaultsDeleteUrl:url];
 }
 
 ///更新下载进度
@@ -231,6 +253,46 @@
     
     NSString *aNewFile = [@"1-" stringByAppendingString:file];
     return [self pathForSavingFile:aNewFile];
+}
+
+#pragma mark - NSUserDefaults
+
+- (void)userDefaultsStoreUrl:(NSString *)url file:(NSString *)fileName
+{
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    NSMutableDictionary *downloadingFiles = [ud objectForKey:@"demoDownloadingFiles"];
+    if (!downloadingFiles)
+    {
+        downloadingFiles = [NSMutableDictionary dictionary];
+    }
+    [downloadingFiles setObject:fileName forKey:url];
+    [ud setObject:downloadingFiles forKey:@"demoDownloadingFiles"];
+    [ud synchronize];
+}
+
+- (void)userDefaultsDeleteUrl:(NSString *)url
+{
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    NSMutableDictionary *downloadingFiles = [ud objectForKey:@"demoDownloadingFiles"];
+    if (downloadingFiles)
+    {
+        [downloadingFiles removeObjectForKey:url];
+    }
+    [ud synchronize];
+}
+
+- (void)readFileFromUserDefaults
+{
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    NSMutableDictionary *downloadingFiles = [ud objectForKey:@"demoDownloadingFiles"];
+    if (downloadingFiles)
+    {
+        for (NSString *url in downloadingFiles)
+        {
+            NSString *fileName = [downloadingFiles objectForKey:url];
+            [self download:url fileName:fileName];
+        }
+    }
 }
 
 @end

@@ -24,6 +24,8 @@
 		A970205D21B121C80099132B /* DownloadListController.m in Sources */ = {isa = PBXBuildFile; fileRef = A970205C21B121C80099132B /* DownloadListController.m */; };
 		A970206021B124ED0099132B /* DownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A970205F21B124ED0099132B /* DownloadManager.m */; };
 		A970206321B15F9D0099132B /* DownloadFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A970206221B15F9D0099132B /* DownloadFileManager.m */; };
+		A9902E8D235D4BFA0099C614 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = A9902E8B235D4BFA0099C614 /* MBProgressHUD.m */; };
+		A9902E90235D4D660099C614 /* MBProgressHUD+Demo.m in Sources */ = {isa = PBXBuildFile; fileRef = A9902E8F235D4D660099C614 /* MBProgressHUD+Demo.m */; };
 		A9A1069A21B509AB00E4D3B2 /* DownloadURLListController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9A1069921B509AB00E4D3B2 /* DownloadURLListController.m */; };
 /* End PBXBuildFile section */
 
@@ -57,6 +59,10 @@
 		A970205F21B124ED0099132B /* DownloadManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DownloadManager.m; sourceTree = "<group>"; };
 		A970206121B15F9D0099132B /* DownloadFileManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DownloadFileManager.h; sourceTree = "<group>"; };
 		A970206221B15F9D0099132B /* DownloadFileManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DownloadFileManager.m; sourceTree = "<group>"; };
+		A9902E8B235D4BFA0099C614 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
+		A9902E8C235D4BFA0099C614 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
+		A9902E8E235D4D660099C614 /* MBProgressHUD+Demo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MBProgressHUD+Demo.h"; sourceTree = "<group>"; };
+		A9902E8F235D4D660099C614 /* MBProgressHUD+Demo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "MBProgressHUD+Demo.m"; sourceTree = "<group>"; };
 		A9A1069821B509AB00E4D3B2 /* DownloadURLListController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DownloadURLListController.h; sourceTree = "<group>"; };
 		A9A1069921B509AB00E4D3B2 /* DownloadURLListController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DownloadURLListController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -101,6 +107,10 @@
 		A970203E21B0DEDC0099132B /* URLProtocolDemo */ = {
 			isa = PBXGroup;
 			children = (
+				A9902E8C235D4BFA0099C614 /* MBProgressHUD.h */,
+				A9902E8B235D4BFA0099C614 /* MBProgressHUD.m */,
+				A9902E8E235D4D660099C614 /* MBProgressHUD+Demo.h */,
+				A9902E8F235D4D660099C614 /* MBProgressHUD+Demo.m */,
 				A970203F21B0DEDC0099132B /* AppDelegate.h */,
 				A970204021B0DEDC0099132B /* AppDelegate.m */,
 				A970204221B0DEDC0099132B /* ViewController.h */,
@@ -212,9 +222,11 @@
 				A970205A21B0E1DC0099132B /* DemoURLProtocol.m in Sources */,
 				A915CAD521B5406B0006C1D5 /* FileListController.m in Sources */,
 				A970206321B15F9D0099132B /* DownloadFileManager.m in Sources */,
+				A9902E90235D4D660099C614 /* MBProgressHUD+Demo.m in Sources */,
 				A970204F21B0DEDF0099132B /* main.m in Sources */,
 				A970204121B0DEDC0099132B /* AppDelegate.m in Sources */,
 				A970205721B0DF550099132B /* DemoViewController.m in Sources */,
+				A9902E8D235D4BFA0099C614 /* MBProgressHUD.m in Sources */,
 				A93FEAC721C1FDC600C00944 /* FileCell.m in Sources */,
 				A9A1069A21B509AB00E4D3B2 /* DownloadURLListController.m in Sources */,
 				A970205D21B121C80099132B /* DownloadListController.m in Sources */,

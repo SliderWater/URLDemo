@@ -30,6 +30,7 @@ typedef void(^kVoidBlockType)(void);
 
 @protocol DownloadDelegate <NSObject>
 
+@optional
 - (void)downloadUrl:(NSString *)url didWriteData:(int64_t)bytesWritten totalBytesWritten:(int64_t)totalBytesWritten totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite;
 - (void)downloadUrl:(NSString *)url successWithSavedPath:(NSString *)savedPath;
 - (void)downloadUrl:(NSString *)url failedWithError:(NSError *)error;

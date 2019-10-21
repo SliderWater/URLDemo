@@ -9,8 +9,9 @@
 #import "DownloadListController.h"
 #import "DownloadManager.h"
 #import "DownloadListCell.h"
+#import "MBProgressHUD+Demo.h"
 
-@interface DownloadListController ()
+@interface DownloadListController () <DownloadDelegate>
 
 @property (nonatomic, strong) DownloadManager *manager;
 @property (nonatomic, strong) NSTimer *timer;
@@ -22,12 +23,23 @@
 
 @implementation DownloadListController
 
+- (void)dealloc
+{
+    self.manager.delegate = nil;
+    self.manager = nil;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     [self prepareData];
     [self.tableView registerNib:[UINib nibWithNibName:@"DownloadListCell" bundle:nil] forCellReuseIdentifier:@"DownloadListCell"];
     self.tableView.rowHeight = 60;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
     [self prepareTimer];
 }
 
@@ -41,6 +53,7 @@
 - (void)prepareData
 {
     _manager = [DownloadManager manager];
+    _manager.delegate = self;
     _lastWrittenBytes = [NSMutableDictionary dictionary];
     _currentWrittenBytes = [NSMutableDictionary dictionary];
     _velocityDict = [NSMutableDictionary dictionary];
@@ -194,6 +207,19 @@
 - (void)tableView:(UITableView *)tableView didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [self.timer setFireDate:[NSDate date]];
+}
+
+#pragma mark - DownloadDelegate
+
+- (void)downloadUrl:(NSString *)url failedWithError:(NSError *)error
+{
+    [MBProgressHUD showText:error.localizedDescription onView:self.view];
+}
+
+- (void)downloadUrl:(NSString *)url successWithSavedPath:(NSString *)savedPath
+{
+    NSString *successText = [NSString stringWithFormat:@"%@ download success!", url];
+    [MBProgressHUD showText:successText onView:self.view];
 }
 
 
